@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Книги
+ */
+
 @Entity
 @Table(name = "BOOKS")
 public class Book {
