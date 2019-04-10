@@ -25,14 +25,14 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
 
     @Override
     public Book getById(long id) {
-        TypedQuery<Book> query = em.createQuery("select b from Book b where b.id = :id", Book.class);
+        TypedQuery<Book> query = em.createQuery("select b from Book b left join fetch b.author left join fetch b.genre where b.id = :id", Book.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
 
     @Override
     public List<Book> getAll() {
-        TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
+        TypedQuery<Book> query = em.createQuery("select b from Book b left join fetch b.author left join fetch b.genre", Book.class);
         return query.getResultList();
     }
 

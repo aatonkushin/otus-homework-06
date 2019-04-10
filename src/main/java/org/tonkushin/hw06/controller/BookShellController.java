@@ -8,6 +8,7 @@ import org.tonkushin.hw06.model.BookComment;
 import org.tonkushin.hw06.service.book.BookService;
 import org.tonkushin.hw06.service.bookcomment.BookCommentService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @ShellComponent
@@ -50,6 +51,7 @@ public class BookShellController {
     }
 
     @ShellMethod(value = "Выводит все комментарии к книге", key = {"get-book-comments", "gbc"})
+    @Transactional
     public String getBookComments(long bookId) {
         Book b = service.getById(bookId);
 

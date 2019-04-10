@@ -1,10 +1,12 @@
 package org.tonkushin.hw06.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Книги
+ */
 
 @Entity
 @Table(name = "BOOKS")
@@ -20,7 +22,7 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;    //автор книги
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<BookComment> comments = new ArrayList<BookComment>();
 
     public Book() {
