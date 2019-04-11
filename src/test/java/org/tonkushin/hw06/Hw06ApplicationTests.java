@@ -5,24 +5,18 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.tonkushin.hw06.repository.author.AuthorRepositoryJpaImplTest;
-import org.tonkushin.hw06.repository.book.BookRepositoryJpaImplTest;
-import org.tonkushin.hw06.repository.bookcomment.BookCommentRepositoryJpaImplTest;
-import org.tonkushin.hw06.repository.genre.GenreRepositoryJpaImpl;
-import org.tonkushin.hw06.repository.genre.GenreRepositoryJpaImplTest;
+import org.tonkushin.hw06.service.author.AuthorServiceImplTest;
+import org.tonkushin.hw06.service.book.BookServiceImplTest;
+import org.tonkushin.hw06.service.genre.GenreServiceImplTest;
 
 @RunWith(Suite.class)
 @SpringBootTest
 @TestPropertySource("/test.properties")
-@Suite.SuiteClasses({AuthorRepositoryJpaImplTest.class,
-		GenreRepositoryJpaImplTest.class,
-		BookRepositoryJpaImplTest.class,
-		BookCommentRepositoryJpaImplTest.class})
+@Suite.SuiteClasses({AuthorServiceImplTest.class, GenreServiceImplTest.class, BookServiceImplTest.class})
 public class Hw06ApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 
 }

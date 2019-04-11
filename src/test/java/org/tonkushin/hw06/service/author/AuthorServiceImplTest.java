@@ -7,12 +7,11 @@ import org.mockito.Mockito;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.tonkushin.hw06.model.Author;
-import org.tonkushin.hw06.repository.author.AuthorRepositoryJpa;
+import org.tonkushin.hw06.repository.author.AuthorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource("/test.properties")
@@ -22,19 +21,20 @@ public class AuthorServiceImplTest {
     public void insert() {
         Author author = getAuthor();
 
-        AuthorRepositoryJpa repository = Mockito.mock(AuthorRepositoryJpa.class);
-        Mockito.when(repository.insert(author)).thenReturn(author);
+        AuthorRepository repository = Mockito.mock(AuthorRepository.class);
+        Mockito.when(repository.save(author)).thenReturn(author);
 
         AuthorService service = new AuthorServiceImpl(repository);
         Assertions.assertThat(service.insert(author)).isEqualTo(author);
     }
 
     @Test
-    public void getById() {
+    public void getById() throws Exception {
         Author author = getAuthor();
+        Optional<Author> opt = Optional.of(author);
 
-        AuthorRepositoryJpa repository = Mockito.mock(AuthorRepositoryJpa.class);
-        Mockito.when(repository.getById(1L)).thenReturn(author);
+        AuthorRepository repository = Mockito.mock(AuthorRepository.class);
+        Mockito.when(repository.findById(1L)).thenReturn(opt);
 
         AuthorService service = new AuthorServiceImpl(repository);
         Assertions.assertThat(service.getById(1L)).isEqualTo(author);
@@ -43,19 +43,19 @@ public class AuthorServiceImplTest {
     @Test
     public void getAll() {
         List<Author> authors = new ArrayList<>(3);
-        for (long i=1; i<=3; i++){
+        for (long i = 1; i <= 3; i++) {
             authors.add(getAuthor());
         }
 
-        AuthorRepositoryJpa repository = Mockito.mock(AuthorRepositoryJpa.class);
-        Mockito.when(repository.getAll()).thenReturn(authors);
+        AuthorRepository repository = Mockito.mock(AuthorRepository.class);
+        Mockito.when(repository.findAll()).thenReturn(authors);
 
         AuthorService service = new AuthorServiceImpl(repository);
 
         Assertions.assertThat(service.getAll().size()).isEqualTo(3L);
     }
 
-    private Author getAuthor(){
+    private Author getAuthor() {
         return new Author("Пушкин");
     }
 }

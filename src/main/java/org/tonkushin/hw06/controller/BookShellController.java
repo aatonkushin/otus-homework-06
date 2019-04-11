@@ -6,7 +6,6 @@ import org.springframework.shell.standard.ShellMethod;
 import org.tonkushin.hw06.model.Book;
 import org.tonkushin.hw06.model.BookComment;
 import org.tonkushin.hw06.service.book.BookService;
-import org.tonkushin.hw06.service.bookcomment.BookCommentService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -14,12 +13,10 @@ import java.util.List;
 @ShellComponent
 public class BookShellController {
     private final BookService service;
-    private final BookCommentService bookCommentService;
 
     @Autowired
-    public BookShellController(BookService service, BookCommentService bookCommentService) {
+    public BookShellController(BookService service) {
         this.service = service;
-        this.bookCommentService = bookCommentService;
     }
 
     @ShellMethod(value = "Выводит список всех книг", key = {"get-books", "gb"})
@@ -40,20 +37,33 @@ public class BookShellController {
 
     @ShellMethod(value = "Добавляет книгу с названием name, автором с кодом authorId и жанром с кодом genreId", key = {"add-book", "ab"})
     public String addBook(String name, long authorId, long genreId) {
-        service.insert(name, authorId, genreId);
+        try {
+            service.insert(name, authorId, genreId);
+        } catch (Exception e) {
+            return e.toString();
+        }
         return "Книга с названием '" + name + "' добавлена";
     }
 
     @ShellMethod(value = "Добавляет комментарий к книге", key = {"add-book-comment", "abc"})
     public String addBookComment(long bookId, String commentText) {
-        bookCommentService.insert(bookId, commentText);
-        return "Комментарий добавлен";
+        try {
+            service.addComment(bookId, commentText);
+        } catch (Exception e) {
+            return e.toString();
+        }
+        return String.format("Комментарий %s добавлен", commentText) ;
     }
 
     @ShellMethod(value = "Выводит все комментарии к книге", key = {"get-book-comments", "gbc"})
     @Transactional
     public String getBookComments(long bookId) {
-        Book b = service.getById(bookId);
+        Book b = null;
+        try {
+            b = service.getById(bookId);
+        } catch (Exception e) {
+            return e.toString();
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append("Название: ").append(b.getName()).append("\n");
