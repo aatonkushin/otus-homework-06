@@ -5,7 +5,7 @@ import java.util.List;
 public interface Service<T> {
     T insert(T item);
 
-    T getById(long id);
+    T getById(long id) throws Exception;
 
     List<T> getAll();
 

@@ -3,6 +3,7 @@ package org.tonkushin.hw06.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Книги
@@ -22,7 +23,7 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;    //автор книги
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BookComment> comments = new ArrayList<BookComment>();
 
     public Book() {
@@ -72,5 +73,21 @@ public class Book {
 
     public void setComments(List<BookComment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return getId() == book.getId() &&
+                getName().equals(book.getName()) &&
+                getGenre().equals(book.getGenre()) &&
+                getAuthor().equals(book.getAuthor());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getGenre(), getAuthor());
     }
 }

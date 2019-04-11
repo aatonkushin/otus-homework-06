@@ -1,6 +1,7 @@
 package org.tonkushin.hw06.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Жанры книг
@@ -60,5 +61,19 @@ public class Genre {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genre)) return false;
+        Genre genre = (Genre) o;
+        return getId() == genre.getId() &&
+                getName().equals(genre.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }
